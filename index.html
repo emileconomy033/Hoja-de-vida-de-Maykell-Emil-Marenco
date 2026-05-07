@@ -287,6 +287,78 @@ a.pub-link:hover { color: var(--gold); }
 [data-lang="en"] { display: none; }
 body.lang-en [data-lang="en"] { display: revert; }
 body.lang-en [data-lang="es"] { display: none; }
+
+/* ── MOBILE RESPONSIVE ── */
+@media screen and (max-width: 700px) {
+  body { font-size: 10pt; }
+
+  .toolbar { padding: 6px 12px; flex-wrap: wrap; gap: 6px; }
+  .toolbar-title { display: none; }
+  .toolbar-right { flex-wrap: wrap; gap: 6px; }
+  .tb-btn { font-size: 7.5pt; padding: 4px 10px; }
+  .zoom-ctrl { display: none; }
+
+  .page-wrap { padding: 4px; }
+  .page {
+    grid-template-columns: 1fr !important;
+    grid-template-rows: auto !important;
+    box-shadow: none;
+  }
+
+  .header {
+    grid-column: 1 !important;
+    padding: 16px;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 12px;
+  }
+  .header-photo { width: 80px; height: 80px; }
+  .header-name { font-size: 20pt; }
+  .header-rule { width: 70%; margin: 4px auto 8px; }
+  .header-title { font-size: 9pt; }
+
+  .main {
+    padding: 14px 16px;
+    border-right: none;
+    border-bottom: 2px solid var(--rule);
+  }
+
+  .sidebar {
+    padding: 14px 16px;
+    background: #f5f4f0;
+  }
+
+  .sh { font-size: 9.5pt; margin: 16px 0 3px; }
+
+  .row-sb { flex-direction: column; gap: 1px; }
+  .job-date { font-size: 8.5pt; }
+  .job-title { font-size: 9.5pt; }
+  .employer { font-size: 9.5pt; }
+
+  .ref-grid, .ref-grid.three { grid-template-columns: 1fr; }
+
+  .training-grid { grid-template-columns: 1fr; }
+  .training-cat { margin-top: 8px; margin-bottom: 2px; font-size: 9pt; color: var(--blue-dark); }
+
+  table.consult { font-size: 8pt; }
+  table.consult th, table.consult td { padding: 3pt 4pt; }
+
+  table.conf td.cy { width: 28pt; font-size: 8.5pt; }
+  .conf-title { font-size: 8pt; }
+  .conf-place { font-size: 7.5pt; }
+
+  .tl-popup { width: 92vw; }
+  .inst-tt { width: 200px; font-size: 7.5pt; }
+
+  ul.buls li { font-size: 9pt; }
+  ol.pub-list li { font-size: 8.5pt; }
+  .pub-tag { font-size: 6.5pt; padding: 1px 4px; }
+  .expand-btn { font-size: 7.5pt; }
+
+  .acad-note { font-size: 8pt; }
+  .acad-years, .yrs { white-space: normal; }
+}
 </style>
 </head>
 <body>
