@@ -288,76 +288,196 @@ a.pub-link:hover { color: var(--gold); }
 body.lang-en [data-lang="en"] { display: revert; }
 body.lang-en [data-lang="es"] { display: none; }
 
-/* ── MOBILE RESPONSIVE ── */
+/* ════════════════════════════════════════════════
+   MOBILE RESPONSIVE + DRAWER
+   ════════════════════════════════════════════════ */
 @media screen and (max-width: 700px) {
   body { font-size: 10pt; }
-
   .toolbar { padding: 6px 12px; flex-wrap: wrap; gap: 6px; }
   .toolbar-title { display: none; }
   .toolbar-right { flex-wrap: wrap; gap: 6px; }
   .tb-btn { font-size: 7.5pt; padding: 4px 10px; }
   .zoom-ctrl { display: none; }
-
   .page-wrap { padding: 4px; }
-  .page {
-    grid-template-columns: 1fr !important;
-    grid-template-rows: auto !important;
-    box-shadow: none;
-  }
-
-  .header {
-    grid-column: 1 !important;
-    padding: 16px;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    gap: 12px;
-  }
+  .page { grid-template-columns: 1fr !important; grid-template-rows: auto !important; box-shadow: none; }
+  .header { grid-column: 1 !important; padding: 16px; flex-direction: column; align-items: center; text-align: center; gap: 12px; }
   .header-photo { width: 80px; height: 80px; }
   .header-name { font-size: 20pt; }
   .header-rule { width: 70%; margin: 4px auto 8px; }
   .header-title { font-size: 9pt; }
-
-  .main {
-    padding: 14px 16px;
-    border-right: none;
-    border-bottom: 2px solid var(--rule);
-  }
-
-  .sidebar {
-    padding: 14px 16px;
-    background: #f5f4f0;
-  }
-
+  .main { padding: 14px 16px; border-right: none; }
+  .sidebar { display: none !important; }
   .sh { font-size: 9.5pt; margin: 16px 0 3px; }
-
   .row-sb { flex-direction: column; gap: 1px; }
   .job-date { font-size: 8.5pt; }
-  .job-title { font-size: 9.5pt; }
   .employer { font-size: 9.5pt; }
-
   .ref-grid, .ref-grid.three { grid-template-columns: 1fr; }
-
   .training-grid { grid-template-columns: 1fr; }
   .training-cat { margin-top: 8px; margin-bottom: 2px; font-size: 9pt; color: var(--blue-dark); }
-
   table.consult { font-size: 8pt; }
   table.consult th, table.consult td { padding: 3pt 4pt; }
-
   table.conf td.cy { width: 28pt; font-size: 8.5pt; }
   .conf-title { font-size: 8pt; }
   .conf-place { font-size: 7.5pt; }
-
   .tl-popup { width: 92vw; }
   .inst-tt { width: 200px; font-size: 7.5pt; }
-
   ul.buls li { font-size: 9pt; }
   ol.pub-list li { font-size: 8.5pt; }
   .pub-tag { font-size: 6.5pt; padding: 1px 4px; }
-  .expand-btn { font-size: 7.5pt; }
-
   .acad-note { font-size: 8pt; }
-  .acad-years, .yrs { white-space: normal; }
+  .yrs { white-space: normal; }
+}
+
+/* ════════════════════════════════════════
+   DRAWER BUTTON — "Ver más ☰"
+   ════════════════════════════════════════ */
+.drawer-btn {
+  display: none;
+  position: fixed;
+  bottom: 22px;
+  right: 16px;
+  z-index: 400;
+  background: var(--blue-dark);
+  color: white;
+  border: none;
+  border-radius: 28px;
+  padding: 11px 18px;
+  font-family: var(--font);
+  font-size: 11pt;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.32);
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  transition: background .2s, box-shadow .2s;
+  letter-spacing: 0.2px;
+}
+.drawer-btn:hover { background: var(--gold); box-shadow: 0 4px 20px rgba(184,134,11,0.4); }
+.drawer-btn-icon { font-size: 13pt; line-height: 1; }
+
+/* Hint tooltip — appears on load, fades out */
+.drawer-hint {
+  display: none;
+  position: fixed;
+  bottom: 78px;
+  right: 16px;
+  z-index: 400;
+  background: var(--blue-dark);
+  color: white;
+  font-family: var(--font);
+  font-size: 8.5pt;
+  padding: 8px 14px;
+  border-radius: 8px;
+  white-space: nowrap;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.3);
+  border-left: 3px solid var(--gold);
+  animation: hintFadeOut 3.5s ease forwards;
+  pointer-events: none;
+}
+.drawer-hint::after {
+  content: "";
+  position: absolute;
+  top: 100%; right: 28px;
+  border: 7px solid transparent;
+  border-top-color: var(--blue-dark);
+}
+@keyframes hintFadeOut {
+  0%   { opacity: 0; transform: translateY(6px); }
+  15%  { opacity: 1; transform: translateY(0); }
+  70%  { opacity: 1; }
+  100% { opacity: 0; transform: translateY(-4px); }
+}
+
+/* Overlay */
+.drawer-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  z-index: 450;
+  backdrop-filter: blur(1px);
+}
+.drawer-overlay.open { display: block; }
+
+/* Drawer panel */
+.drawer-panel {
+  position: fixed;
+  top: 0; right: 0;
+  height: 100%;
+  width: 84vw;
+  max-width: 340px;
+  background: #fafaf8;
+  z-index: 500;
+  transform: translateX(100%);
+  transition: transform .3s cubic-bezier(.4,0,.2,1);
+  overflow-y: auto;
+  box-shadow: -4px 0 24px rgba(0,0,0,0.2);
+}
+.drawer-panel.open { transform: translateX(0); }
+
+.drawer-header {
+  background: var(--blue-dark);
+  padding: 14px 18px 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  border-bottom: 2px solid var(--gold);
+}
+.drawer-header-title {
+  font-family: var(--font);
+  font-size: 10pt;
+  font-weight: 600;
+  color: var(--gold);
+}
+.drawer-close {
+  background: none;
+  border: none;
+  color: rgba(255,255,255,.75);
+  font-size: 22px;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0 2px;
+}
+.drawer-close:hover { color: white; }
+
+.drawer-content {
+  padding: 16px;
+  font-family: var(--font);
+  font-size: 9.5pt;
+  color: #333;
+  line-height: 1.5;
+}
+.drawer-content .sb-block { margin-bottom: 16px; }
+.drawer-content .sb-head {
+  font-size: 9.5pt; font-weight: 700; color: var(--gold);
+  margin-bottom: 4px; padding-bottom: 2px;
+  border-bottom: 1px solid var(--rule);
+}
+.drawer-content .sb-body { font-size: 9pt; color: #444; line-height: 1.55; }
+.drawer-content .comp-block { margin-bottom: 11px; }
+.drawer-content .comp-title { font-size: 9pt; font-weight: 700; color: var(--gold); margin-bottom: 2px; }
+.drawer-content .comp-body { font-size: 8.5pt; color: #444; line-height: 1.5; }
+.drawer-content .tl-item { position: relative; margin-bottom: 4px; cursor: pointer; border-radius: 4px; padding: 5px 8px; transition: background .15s; }
+.drawer-content .tl-item:hover { background: rgba(184,134,11,.08); }
+.drawer-content .tl-header { display: flex; align-items: center; gap: 8px; }
+.drawer-content .tl-year-badge { font-size: 8.5pt; font-weight: 700; color: var(--gold); width: 36px; text-align: right; flex-shrink: 0; }
+.drawer-content .tl-bar-wrap { flex: 1; height: 10px; background: #e8e4dc; border-radius: 5px; overflow: hidden; }
+.drawer-content .tl-bar { height: 100%; border-radius: 5px; }
+.drawer-content .tl-bar.current { background: var(--gold); }
+.drawer-content .tl-bar.past { background: var(--blue-dark); }
+.drawer-content .tl-role { font-size: 7.5pt; color: #555; margin-top: 1px; padding-left: 44px; font-style: italic; }
+
+/* Only show on mobile */
+@media screen and (max-width: 700px) {
+  .drawer-btn { display: flex; }
+  .drawer-hint { display: block; }
+}
+@media screen and (min-width: 701px) {
+  .drawer-panel, .drawer-overlay, .drawer-btn, .drawer-hint { display: none !important; }
 }
 </style>
 </head>
@@ -1040,5 +1160,132 @@ function closeTlPopup() {
 }
 document.addEventListener("keydown", function(e) { if (e.key === "Escape") closeTlPopup(); });
 </script>
+
+<!-- ════ MOBILE DRAWER ════ -->
+<div class="drawer-hint" id="drawer-hint">
+  Toca <strong>"Ver más"</strong> para ver tu perfil completo
+</div>
+
+<button class="drawer-btn" id="drawer-btn" onclick="openDrawer()">
+  Ver más <span class="drawer-btn-icon">☰</span>
+</button>
+
+<div class="drawer-overlay" id="drawer-overlay" onclick="closeDrawer()"></div>
+
+<div class="drawer-panel" id="drawer-panel">
+  <div class="drawer-header">
+    <span class="drawer-header-title">Perfil · Competencias · Cronología</span>
+    <button class="drawer-close" onclick="closeDrawer()">×</button>
+  </div>
+  <div class="drawer-content">
+
+    <div class="sb-block">
+      <div class="sb-head" data-lang="es">Información Personal</div>
+      <div class="sb-head" data-lang="en">Personal Info</div>
+      <div class="sb-body">
+        <strong data-lang="es">Nacionalidad:</strong><strong data-lang="en">Nationality:</strong> nicaragüense<br>
+        <strong data-lang="es">Residencia:</strong><strong data-lang="en">Location:</strong> Guatemala, Guatemala<br>
+        <strong>Correo:</strong> <a href="mailto:emil_marenco@yahoo.com" style="color:var(--blue-mid);text-decoration:none">emil_marenco@yahoo.com</a>
+      </div>
+    </div>
+
+    <div class="sb-block">
+      <div class="sb-head" data-lang="es">Competencias Clave</div>
+      <div class="sb-head" data-lang="en">Key Competencies</div>
+      <div class="comp-block">
+        <div class="comp-title" data-lang="es">Análisis económico y comercial:</div>
+        <div class="comp-title" data-lang="en">Economic &amp; trade analysis:</div>
+        <div class="comp-body" data-lang="es">Análisis coyuntural macroeconómico y comercial; evaluación de acuerdos comerciales (TLC, AAP) y balanza comercial; inteligencia económica y de mercados; proyecciones económicas; facilitación del comercio y clima de negocios.</div>
+        <div class="comp-body" data-lang="en">Macroeconomic and trade conjunctural analysis; trade agreements evaluation and trade balance; economic and market intelligence; economic projections; trade facilitation and business climate.</div>
+      </div>
+      <div class="comp-block">
+        <div class="comp-title" data-lang="es">Dirección y gestión:</div>
+        <div class="comp-title" data-lang="en">Leadership &amp; management:</div>
+        <div class="comp-body" data-lang="es">Coordinación de equipos técnicos, planificación estratégica, análisis aplicado a política pública regional.</div>
+        <div class="comp-body" data-lang="en">Technical team coordination, strategic planning, analysis applied to regional public policy.</div>
+      </div>
+      <div class="comp-block">
+        <div class="comp-title" data-lang="es">Herramientas cuantitativas y tecnológicas:</div>
+        <div class="comp-title" data-lang="en">Quantitative &amp; tech tools:</div>
+        <div class="comp-body" data-lang="es">R, JASP, SPSS, SAP, Power BI, Excel avanzado. Modelado econométrico (series de tiempo, datos de panel); <em>Business Intelligence</em> y visualización ejecutiva; integración de bases de datos oficiales (Banguat, SAT, INE, SIB, VUPE, SECMCA); IA generativa aplicada a investigación económica y elaboración de <em>prompts</em> especializados.</div>
+        <div class="comp-body" data-lang="en">R, JASP, SPSS, SAP, Power BI, advanced Excel. Econometric modeling; Business Intelligence and executive visualization; integration of official databases; generative AI applied to economic research and specialized prompt engineering.</div>
+      </div>
+    </div>
+
+    <div class="sb-block">
+      <div class="sb-head" data-lang="es">📅 Línea de Tiempo — toca para detalles</div>
+      <div class="sb-head" data-lang="en">📅 Career Timeline — tap for details</div>
+      <div class="tl-wrapper">
+        <div class="tl-item" onclick="closeDrawer();openTl('2023')">
+          <div class="tl-header"><span class="tl-year-badge">2023</span><div class="tl-bar-wrap"><div class="tl-bar current" style="width:100%"></div></div></div>
+          <div class="tl-role" data-lang="es">Jefe de Investigación y Análisis — SIECA</div>
+          <div class="tl-role" data-lang="en">Head of Research &amp; Analysis — SIECA</div>
+        </div>
+        <div class="tl-item" onclick="closeDrawer();openTl('2022')">
+          <div class="tl-header"><span class="tl-year-badge">2022</span><div class="tl-bar-wrap"><div class="tl-bar past" style="width:75%"></div></div></div>
+          <div class="tl-role" data-lang="es">Técnico Estadístico — SIECA (promovido en 3 meses)</div>
+          <div class="tl-role" data-lang="en">Statistical Analyst — SIECA (promoted in 3 months)</div>
+        </div>
+        <div class="tl-item" onclick="closeDrawer();openTl('2021')">
+          <div class="tl-header"><span class="tl-year-badge">2021</span><div class="tl-bar-wrap"><div class="tl-bar past" style="width:60%"></div></div></div>
+          <div class="tl-role" data-lang="es">Consultor Internacional — AESA / Docente Nicaragua</div>
+          <div class="tl-role" data-lang="en">International Consultant — AESA / Lecturer Nicaragua</div>
+        </div>
+        <div class="tl-item" onclick="closeDrawer();openTl('2020')">
+          <div class="tl-header"><span class="tl-year-badge">2020</span><div class="tl-bar-wrap"><div class="tl-bar past" style="width:45%"></div></div></div>
+          <div class="tl-role" data-lang="es">Asistente Económico — Embajada de México</div>
+          <div class="tl-role" data-lang="en">Economic Assistant — Embassy of Mexico</div>
+        </div>
+        <div class="tl-item" onclick="closeDrawer();openTl('2019')">
+          <div class="tl-header"><span class="tl-year-badge">2019</span><div class="tl-bar-wrap"><div class="tl-bar past" style="width:30%"></div></div></div>
+          <div class="tl-role" data-lang="es">Graduación Ingeniería / Conferencias</div>
+          <div class="tl-role" data-lang="en">Engineering Graduation / Lectures</div>
+        </div>
+        <div class="tl-item" onclick="closeDrawer();openTl('2017')">
+          <div class="tl-header"><span class="tl-year-badge">2017</span><div class="tl-bar-wrap"><div class="tl-bar past" style="width:20%"></div></div></div>
+          <div class="tl-role">Economista — BCN</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sb-block">
+      <div class="sb-head" data-lang="es">Aptitudes</div>
+      <div class="sb-head" data-lang="en">Skills</div>
+      <div class="sb-body"><ul style="padding-left:14px;margin:0">
+        <li data-lang="es">Aptitudes oratorias, en debate y comunicación</li>
+        <li data-lang="en">Oratory, debate and communication skills</li>
+        <li data-lang="es">Facultades para escribir e investigar</li>
+        <li data-lang="en">Writing and research abilities</li>
+      </ul></div>
+    </div>
+
+    <div class="sb-block">
+      <div class="sb-head" data-lang="es">Idiomas</div>
+      <div class="sb-head" data-lang="en">Languages</div>
+      <div class="sb-body"><ul style="padding-left:14px;margin:0">
+        <li data-lang="es">Español (nativo)</li><li data-lang="en">Spanish (native)</li>
+        <li data-lang="es">Inglés (Intermedio)</li><li data-lang="en">English (Intermediate)</li>
+      </ul></div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+function openDrawer() {
+  document.getElementById("drawer-panel").classList.add("open");
+  document.getElementById("drawer-overlay").classList.add("open");
+  document.body.style.overflow = "hidden";
+}
+function closeDrawer() {
+  document.getElementById("drawer-panel").classList.remove("open");
+  document.getElementById("drawer-overlay").classList.remove("open");
+  document.body.style.overflow = "";
+}
+document.addEventListener("keydown", function(e) {
+  if (e.key === "Escape") { closeDrawer(); closeTlPopup(); }
+});
+</script>
+
 </body>
 </html>
