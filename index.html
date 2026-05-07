@@ -333,10 +333,7 @@ body.lang-en [data-lang="es"] { display: none; }
    ════════════════════════════════════════ */
 .drawer-btn {
   display: none;
-  position: fixed;
-  bottom: 22px;
-  right: 16px;
-  z-index: 400;
+  position: static;
   background: var(--blue-dark);
   color: white;
   border: none;
@@ -347,20 +344,33 @@ body.lang-en [data-lang="es"] { display: none; }
   font-weight: 600;
   cursor: pointer;
   box-shadow: 0 4px 18px rgba(0,0,0,0.32);
-  display: flex;
   align-items: center;
   gap: 7px;
   transition: background .2s, box-shadow .2s;
   letter-spacing: 0.2px;
+  margin: 0 auto;
 }
 .drawer-btn:hover { background: var(--gold); box-shadow: 0 4px 20px rgba(184,134,11,0.4); }
 .drawer-btn-icon { font-size: 13pt; line-height: 1; }
+
+/* Container for top and bottom buttons */
+.drawer-btn-top, .drawer-btn-bottom {
+  display: none;
+  justify-content: flex-end;
+  padding: 12px 0 4px 0;
+}
+.drawer-btn-bottom {
+  padding: 14px 0 8px 0;
+  border-top: 1px solid var(--rule);
+  margin-top: 10px;
+}
 
 /* Hint tooltip — appears on load, fades out */
 .drawer-hint {
   display: none;
   position: fixed;
-  bottom: 78px;
+  bottom: auto;
+  top: 56px;
   right: 16px;
   z-index: 400;
   background: var(--blue-dark);
@@ -378,9 +388,9 @@ body.lang-en [data-lang="es"] { display: none; }
 .drawer-hint::after {
   content: "";
   position: absolute;
-  top: 100%; right: 28px;
+  bottom: 100%; right: 28px;
   border: 7px solid transparent;
-  border-top-color: var(--blue-dark);
+  border-bottom-color: var(--blue-dark);
 }
 @keyframes hintFadeOut {
   0%   { opacity: 0; transform: translateY(6px); }
@@ -474,10 +484,12 @@ body.lang-en [data-lang="es"] { display: none; }
 /* Only show on mobile */
 @media screen and (max-width: 700px) {
   .drawer-btn { display: flex; }
+  .drawer-btn-top, .drawer-btn-bottom { display: flex; }
   .drawer-hint { display: block; }
 }
 @media screen and (min-width: 701px) {
-  .drawer-panel, .drawer-overlay, .drawer-btn, .drawer-hint { display: none !important; }
+  .drawer-panel, .drawer-overlay, .drawer-btn,
+  .drawer-btn-top, .drawer-btn-bottom, .drawer-hint { display: none !important; }
 }
 </style>
 </head>
@@ -536,6 +548,10 @@ body.lang-en [data-lang="es"] { display: none; }
 
 <!-- ══ MAIN ══ -->
 <main class="main">
+
+<div class="drawer-btn-top">
+  <button class="drawer-btn" onclick="openDrawer()">Ver más <span class="drawer-btn-icon">☰</span></button>
+</div>
 
 <p class="profile" data-lang="es">Economista especializado en análisis macroeconómico, comercio exterior e integración económica centroamericana, con más de ocho años de experiencia en dirección de investigación aplicada, elaboración de informes técnicos para toma de decisión y coordinación interinstitucional pública regional. Actualmente Jefe del Departamento de Investigación y Análisis de la <span class="ht">SIECA<span class="tt">Secretaría de Integración Económica Centroamericana — organismo técnico del subsistema económico del SICA</span></span>, produciendo estudios técnicos y análisis de coyuntura económica y comercial que sirven de insumo para los órganos regionales de integración económica. Con capacidad para traducir evidencia cuantitativa en notas ejecutivas, proyecciones y propuestas orientadas a competitividad, inversión extranjera directa y aprovechamiento de acuerdos comerciales. Dominio de herramientas econométricas y de <em>Business Intelligence</em>.</p>
 <p class="profile" data-lang="en">Economist specialized in macroeconomic analysis, foreign trade and Central American economic integration, with over eight years of experience leading applied research, producing technical briefs for decision-makers and coordinating across regional public institutions. Currently Head of the Research and Analysis Department at SIECA, generating technical studies and economic outlook analyses for regional integration bodies. Skilled at translating quantitative evidence into executive briefs, projections and proposals focused on competitiveness, foreign direct investment and leveraging trade agreements. Advanced command of econometric and Business Intelligence tools.</p>
@@ -878,6 +894,10 @@ body.lang-en [data-lang="es"] { display: none; }
   </div>
 </div>
 
+<div class="drawer-btn-bottom">
+  <button class="drawer-btn" onclick="openDrawer()">Ver más <span class="drawer-btn-icon">☰</span></button>
+</div>
+
 </main>
 
 <!-- ══ SIDEBAR ══ -->
@@ -1163,12 +1183,10 @@ document.addEventListener("keydown", function(e) { if (e.key === "Escape") close
 
 <!-- ════ MOBILE DRAWER ════ -->
 <div class="drawer-hint" id="drawer-hint">
-  Toca <strong>"Ver más"</strong> para ver tu perfil completo
+  Toca <strong>"Ver más"</strong> para mayor información del perfil
 </div>
 
-<button class="drawer-btn" id="drawer-btn" onclick="openDrawer()">
-  Ver más <span class="drawer-btn-icon">☰</span>
-</button>
+
 
 <div class="drawer-overlay" id="drawer-overlay" onclick="closeDrawer()"></div>
 
